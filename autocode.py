@@ -8,13 +8,20 @@ from anthropic import Client
 
 import re
 
+from dotenv import load_dotenv
+load_dotenv()
+
 def extract_python_code(text):
     pattern = r"```python(.*?)```"
     matches = re.findall(pattern, text, re.DOTALL)
     return matches[0]
 
 # Anthropic APIキーの設定
-os.environ["ANTHROPIC_API_KEY"] = "" #YOUR API KEY
+# Anthropic APIキーの設定
+api_key = os.getenv("ANTHROPIC_API_KEY")
+
+if api_key is None:
+    raise ValueError("ANTHROPIC_API_KEY is not set in the environment variables.")
 
 def record_audio(duration, sample_rate):
     print("Recording...")
@@ -40,7 +47,7 @@ def transcribe_audio(audio_path):
     return transcription
 
 def generate_code(prompt):
-    client = Client(api_key=os.environ["ANTHROPIC_API_KEY"])
+    client = Client(api_key=api_key)
     formatted_prompt = f"\n\nHuman: Write a Python code that fulfills the following requirements: {prompt}\n\nAssistant:"
     response = client.completions.create(prompt=formatted_prompt, model="claude-v1", max_tokens_to_sample=1000)
     return response.completion
