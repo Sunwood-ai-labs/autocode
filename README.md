@@ -7,7 +7,8 @@ This program automatically generates Python code based on voice instructions. It
 Before running the program, ensure that you have the following dependencies installed. You can install them using pip:
 
 ```bash
-pip install sounddevice soundfile transformers anthropic
+pip install sounddevice soundfile transformers anthropic python-dotenv
+pip install torch torchvision torchaudio
 ```
 
 - `sounddevice`: Required for audio recording.
